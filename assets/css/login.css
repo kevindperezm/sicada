@@ -1,0 +1,32 @@
+.row.titulo {
+	text-align: center;
+	margin-bottom: 3em;
+	/*text-shadow: 0 8px #EEE;*/
+}
+
+.seccion {
+	margin: 0 auto;
+}
+
+input:not([type="submit"]) {
+	display: block !important;
+	width: 100% !important;
+}
+
+@media only screen and (min-width: 1900px) {
+	.seccion {
+		width: 45% !important;
+	}
+}
+
+@media only screen and (min-width: 1200px) {
+	.seccion {
+		width: 35% !important;
+	}
+}
+
+@media only screen and (min-width: 600px) {
+	.seccion {
+		width: 50%;
+	}
+}

@@ -1,0 +1,251 @@
+/* Estilos que modifican los estilos de Foundation */
+body {
+	font-family: sans-serif !important;
+}
+
+th {
+	text-align: left !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+a {
+	color: inherit;
+	margin-bottom: 1.5em;
+}
+
+a {
+	text-decoration: underline;
+}
+
+a:hover {
+	color: grey;
+}
+
+.row {
+	max-width: none;	
+}
+
+input {
+	/*transition: none !important;*/
+}
+
+.button {
+	background: #00A54F !important;
+	width: 30% !important;
+	min-width: 5em !important;
+	padding: 0.5em !important;
+	text-align: center !important;
+	/*border-radius: 7px;*/
+	box-shadow: 0 0 1px black;
+	font-size: 0.8em;
+	margin: 0 !important;
+	margin-right: 1em !important;
+	border: 0 !important;
+}
+
+.button:active {
+	background: #008941 !important;
+	box-shadow: 0 0 1px black inset !important;
+}
+
+form {
+	margin: 0 !important;
+}
+
+table {
+	width: 98% !important;
+	border-spacing: 0 !important;
+	border: 1px solid gray;
+}
+
+td, th {
+	background: inherit !important; 
+	border: 0 !important;
+}
+
+.top-bar.expanded a {
+	color: white !important;
+}
+
+.top-bar-section ul li span {
+	margin-left: 0.5em !important;
+}
+
+.top-bar-section ul a {
+	text-decoration: none !important;
+}
+
+.top-bar a:hover,
+.top-bar a:active {
+	/*text-decoration: underline !important;*/
+}
+
+.top-bar-section ul li {
+	margin: 0 !important;
+	padding: 1em !important;
+}
+
+@media only screen and (min-width: 600px) {
+	input, select {
+		width: auto !important;
+		min-width: 18em !important;
+		display: inline !important;
+		margin-right: 1em !important;
+	}
+
+	.button {
+		min-width: 8em !important;
+		width: auto !important;
+	}
+}
+
+/* Estilos propios de todas las páginas de SICADA */
+.header {
+	background: #00A54F;
+	color: white;
+}
+
+.header img {
+	height: 4em;
+	padding: 0.3em 0;
+}
+
+.header .sicada-titulo {
+	padding: 0.2em 0;
+}
+
+.sicada-topper {
+	/*background: #EEE;*/
+	color: black;
+	padding: 0.5em 0;
+	border-bottom: 1px solid #EEEEEE;
+	font-size: 0.8em;
+}
+
+.sicada-menu {
+	background: white;
+	padding: 0;
+	overflow: hidden;
+	width: 100%;
+	color: white;
+}
+
+.sicada-menu,
+.top-bar.expanded .title-area,
+.top-bar .title-area,
+.top-bar-section ul,
+.top-bar .title-area li a,
+.top-bar ul.left {
+	background: #323232 !important;
+	color: white !important;
+}
+
+
+.sicada-menu ul {
+	margin: 0 auto;
+	margin-top: -0.3em;
+}
+
+.sicada-menu a {
+	text-decoration: none;
+}
+
+.sicada-menu ul li {
+	list-style-type: none;
+	display: inline-block;
+	padding: 0.6em 1.4em;
+	margin: -0.2em;
+}
+
+.sicada-menu ul li,
+.top-bar-section ul li {
+	transition: 0.3s;
+}
+
+.sicada-menu ul li span {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;      
+}
+
+.sicada-menu ul li:hover,
+.sicada-menu ul li.activo,
+.top-bar-section ul li:hover,
+.top-bar-section ul li.activo,
+.top-bar-section ul a {
+	background: white !important;
+	color: black !important;
+}
+
+.sicada-menu ul li:active {
+	box-shadow: 0 0 2px black inset;
+}
+
+.sicada-contenido {
+	height: 100%;
+	width: 100% !important;
+	padding-bottom: 1em;
+}
+
+.seccion {
+	margin: 0 1em 2em;
+}
+
+.seccion .titulo {
+	font-size: small;
+	color: white;
+	background: #00A54F;
+	width: auto;
+	padding: 0.3em 0.6em;
+	border: 1px solid #B6B6B6;
+}
+
+.seccion .cuerpo {
+	margin-top: 0.3em;
+	padding: 0.6em;
+	background: #F9F9F9;
+	border: 1px solid #B6B6B6;
+}
+
+.seccion .acciones {
+	text-align: left;
+}
+
+.seccion .instrucciones {
+	font-size: small;
+	margin-bottom: 1em;
+}
+
+table {
+	margin: 0 auto;
+}
+
+table tr:nth-child(odd),
+table tr.encabezados {
+	background: #EEE !important;
+}
+
+table tr:nth-child(even) {
+	background: white;
+}	
+
+.footer {
+	background: #00A54F;
+	color: white;
+	font-size: small;
+	border-top: 1px solid black;
+}
+
+@media only screen and (min-width: 600px) {
+	.header {
+		/*border-bottom: 2px solid black;*/
+	}
+
+	.sicada-topper {
+		/*border: 0;*/
+	}
+
+	.seccion .acciones {
+		text-align: right;
+	}
+}
