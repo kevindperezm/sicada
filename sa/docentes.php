@@ -47,6 +47,7 @@ if (isset($_POST['guardar'])) {
 					<span class="titulo">Nuevo Docente</span>
 					<div class="cuerpo">
 						<form method="post">
+							Nombre
 							<input name="nombre" type="text" placeholder="Nombre">
 						<select name="nivelprofecional" >
 							<option value="0">Nivel Profesional</option>
@@ -57,6 +58,7 @@ if (isset($_POST['guardar'])) {
 								}
 							?>
 						</select>
+						Profeción
 						<input name="profesion" type="text" placeholder="Profesión">
 						<select name="clasificacion">
 							<option value="0">Clasificación</option>
@@ -69,7 +71,9 @@ if (isset($_POST['guardar'])) {
 						</select><br>
 							<input name="tutor" value="1" style="min-width: 0 !important; margin-left: 15px" type="checkbox">Tutor<br class="show-for-small-only">
 							<input name="investigador" value="1" style="min-width: 0 !important; margin-left: 15px; margin-right: 15px" type="checkbox">Investigador
-							<input  name="instituciondeinvestigacion" type="text" placeholder="Institucion de Investigacion">	
+							<br>
+							Institución de Investigación
+							<input  name="instituciondeinvestigacion" type="text" placeholder="Institución de Investigación">	
 						<select name="carreraafin">
 							<option value="0">Carrera Afín</option>
 							<?php
@@ -94,6 +98,7 @@ if (isset($_POST['guardar'])) {
 					<span class="titulo">Docentes Guardados</span>
 					<div class="cuerpo">
 						<div>
+							Filtro
 							<input class="filtro-input" type="text" placeholder="Filtro">
 						</div>
 						<div class="instrucciones">
@@ -112,7 +117,7 @@ if (isset($_POST['guardar'])) {
 									foreach ($table as $key) {
 										echo "<tr>";
 											echo "<td>";
-												echo "<a href='detalles-docente.php?id=".$key->id_docente."'>".$key->nombre."</a>";
+												echo $key->nombre;
 											echo "</td>";
 											echo "<td>";
 												echo $key->id_nivel_profesional;
