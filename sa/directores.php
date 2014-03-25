@@ -1,6 +1,61 @@
 <?php 
 include '../includes/functions.php'; 
 estaLogueado(2);
+
+if (isset($_GET['eliminar'])) {
+	$director = Director::find($_GET['eliminar']);
+	if ($director != null) {
+		$director->usuario->delete();
+		$director->delete();
+	}
+	header("Location: directores.php");
+}
+
+if (isset($_POST['guardar'])) {
+	$director = null;
+	if (isset($_GET['director'])) 
+		$director = Director::find($_GET['director']);
+	else 
+		$director = new Director();
+	$director->nombre = trim($_POST['nombre']);
+	$director->telefono = trim($_POST['telefono']);
+	$director->correo_electronico = trim($_POST['correo-electronico']);
+	$director->id_carrera = $_POST['carrera'];
+
+	$usuario = $director->usuario;
+	if ($usuario == null) $usuario = new Usuario();
+
+	// Evaluando nombre de usuario.
+	// No se permiten nombres de usuario repetidos.
+	$usuario->nombre = trim($_POST['usuario']);
+	$usuarioRepetido = Director::find(array("conditions" => array("nombre = ?", $usuario->nombre)));
+	if ($usuarioRepetido != null) {
+		echo "No está permitido repetir nombre de usuario.<br>";
+	}
+
+	if ($usuarioRepetido == null) {
+		// Evaluando contraseña.
+		// Si el usuario existe y la contraseña viene vacía, se conserva la actual.
+		// Si el usuario es nuevo, se quejará si la contraseña está vacía.
+		if ($usuario->id_usuario != null) {
+			if (strcmp(trim($_POST['contrasena']), "") != 0) {
+				$usuario->contrasena = trim($_POST['contrasena']);	
+			}
+		} else {
+			if (strcmp(trim($_POST['contrasena']), "") != 0) {
+				$usuario->contrasena = trim($_POST['contrasena']);	
+			} else {
+				echo "No se permite crear un nuevo usuario con contraseña vacía.";
+			}
+		}
+		
+		$usuario->save();
+		$director->id_usuario = $usuario->id_usuario;
+		$director->save();
+
+		header("Location: directores.php");
+	}
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -12,6 +67,13 @@ estaLogueado(2);
 	<?php include "../includes/header.php"; ?>
 	<?php include "../includes/menu.php"; ?>
 			<!-- Contenido -->
+			<?php
+			$E = false;
+			if (isset($_GET['director'])) {
+				$director = Director::find($_GET['director']);
+				$E = ($director != null);
+			}
+			?>
 			<div class="row contenido-titulo">
 				<div class="small-12 columns">
 					<h4>Directores de carrera</h4>
@@ -22,20 +84,48 @@ estaLogueado(2);
 					<span class="titulo">Nuevo director</span>
 					<div class="cuerpo">
 						<form method="post">
-							Nombre
-							<input name="nombre" type="text" placeholder="Nombre">
-							Teléfono
-							<input name="telefono" type="text" placeholder="Teléfono de contacto">
-							<select name="carrera">
-								<option value="0">Carrera</option>
-							</select><br>
-							Usuario
-							<input name="usuario" type="text" placeholder="Usuario">
-							Contraseña
-							<input name="contrasena" type="text" placeholder="Contraseña">
-							<div class="acciones">
-								<input type="submit" class="button" value="Guardar">
-							</div>
+							<table>
+								<tr>
+									<th>Nombre</th>
+									<td><input name="nombre" type="text"></td>
+								</tr>
+								<tr>
+									<th>Teléfono</th>
+									<td><input name="telefono" type="text"></td>
+								</tr>
+								<tr>
+									<th>Correo electrónico</th>
+									<td><input name="correo-electronico" type="email"></td>
+								</tr>
+								<tr>
+									<th>Carrera</th>
+									<td>
+										<select name="carrera">
+											<option value="0">Carrera</option>
+											<?php
+											foreach (Carrera::all() as $carrera) 
+												echo "<option value='".$carrera->id_carrera."'>".$carrera->nombre."</option>";
+											?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th>Usuario</th>
+									<td><input name="usuario" type="text"></td>
+								</tr>
+								<tr>
+									<th>Contraseña</th>
+									<td><input name="contrasena" type="password"></td>
+								</tr>
+								<tr>
+									<th class='hide-for-small'>&nbsp;</th>
+									<td colspan="2">
+										<div class="acciones">
+											<input type="submit" class="button" value="Guardar">
+										</div>
+									</td>
+								</tr>
+							</table>
 						</form>
 					</div>
 				</div>
@@ -54,9 +144,32 @@ estaLogueado(2);
 								<tr class="encabezados"> 
 									<th>Nombre</th>
 									<th>Carrera</th>
-									<th>Teléfono</th>
+									<th>Correo electrónico</th>
 									<th>Usuario</th>
+									<th class="text-right">Usuario</th>
 								</tr>
+								<?php
+								foreach (Director::all() as $director) {
+									echo "<tr>";
+										echo "<td>";
+											echo "<a href='detalles-director.php?director=".$director->id_director_carrera."'>".$director->nombre."</a>";
+										echo "</td>";
+										echo "<td>";
+											echo $director->carrera->nombre;
+										echo "</td>";
+										echo "<td>";
+											echo $director->correo_electronico;
+										echo "</td>";
+										echo "<td>";
+											echo $director->correo_electronico;
+										echo "</td>";
+										echo "<td class='acciones'>";
+											echo "<a href='directores.php?director=".$grupo->id_grupo."'><img src='../assets/img/edit.png' alt='Editar'></a> ";
+											echo "<a class='eliminar' href='grupos.php?eliminar=".$grupo->id_grupo."'><img src='../assets/img/discard.png' alt='Eliminar'></a> ";
+										echo "</td>";
+									echo "</tr>";
+								}
+								?>
 							</table>
 						</div>
 					</div>
