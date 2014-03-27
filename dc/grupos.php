@@ -6,9 +6,11 @@ estaLogueado(3);
 if (isset($_GET['eliminar'])) {
 	$grupo = Grupo::find($_GET['eliminar']);
 	if ($grupo != null)
-		Rango::delete(array("conditions" => array("id_grupo = ?", $grupo->id_grupo)));
+		foreach ($grupo->rangos as $rango) {
+			$rango->delete();
+		}
 		$grupo->delete();
-	header("Location: grupos.php");
+	header("Location: grupos.php#lista");
 }
 
 if (isset($_POST['guardar'])) {
@@ -106,12 +108,12 @@ if (isset($_POST['guardar'])) {
 
 	}
 	#nuevo-grupo input[type="time"] {
-		display: block !important;
-		width: 100% !important;
+		display: block ;
+		width: 100% ;
 	}
 	#nuevo-grupo input.minutos {
-		width: 40% !important;
-		display: inline !important;
+		width: 40%;
+		display: inline;
 	}
 	</style>
 </head>
@@ -140,19 +142,24 @@ if (isset($_POST['guardar'])) {
 		<span class="titulo">Nuevo grupo</span>
 		<div class="cuerpo">
 			<form method="post">
-				Cuatrimestre: <input type="number" name="cuatrimestre" min="1" max="10" value="1"><br>
-				<h5>Horarios de clase</h5>
 				<table>
+					<tr>
+						<th>Cuatrimestre</th>
+						<td colspan="2"><input style="width: 8em !important;" type="number" name="cuatrimestre" min="1" max="10" value="1"></td>
+					</tr>
+					<tr>
+						<th colspan='3'>Horarios de clase</th>
+					</tr>
 					<?php
 					$dias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
 					$i = 0;
 					foreach ($dias as $dia) {
-						$rango = $rangos[$i];
+						if ($E) $rango = $rangos[$i];
 						echo "<tr>";
 							echo "<th>";echo $dia;echo "</th>";
-							echo "<td>";
+							echo "<td class='checkboxes'>";
 								if (array_search($dia, $dias) > 0) {
-									echo "<input type='checkbox' name='igual-anterior[]' value='1'> Igual que el día anterior";
+									echo "<input type='checkbox' name='igual-anterior[]' value='1'><span>Igual que el ".$dias[$i-1]."</span>";
 									// if ($E && $rango->no_se_asiste) echo "checked='checked'";
 								}
 								echo "<br>";
@@ -161,35 +168,62 @@ if (isset($_POST['guardar'])) {
 								echo "> No se asiste hoy";
 							echo "</td>";
 							echo "<td class='row'>";
-								echo "<div class='small-12 medium-6 large-4 columns'>";
-									echo "Hora de entrada: <input type='time' name='hora-inicio[]' ";
-									if ($E) echo "value='".$rango->hora_inicio."'>"; else echo "value='07:30'>";
-									echo "Receso empieza: <input type='time' name='receso-inicio[]' ";
-									if ($E) echo "value='".$rango->receso_inicio."'>"; else echo "value='09:30'>";
+								echo "<table>";
+									echo "<tr>";
+										echo "<th>Hora de entrada</th>";
+										echo "<td>";
+											echo "<input type='time' name='hora-inicio[]' ";
+											if ($E) echo "value='".$rango->hora_inicio."'>"; else echo "value='07:30'>";
+										echo "</td>";
+									echo "</tr>";
+									echo "<tr>";
+										echo "<th>Hora de salida</th>";
+										echo "<td>";
+											echo "<input type='time' name='hora-salida[]' ";
+											if ($E) echo "value='".$rango->hora_termino."'>"; else echo "value='14:30'>";
+										echo "</td>";
+									echo "</tr>";
+									echo "<tr>";
+										echo "<th>Duración de clase<br>(minutos)</th>";
+										echo "<td>";
+											echo "<input class='minutos' type='number' name='duracion-clase[]' "; 
+											if ($E) echo "value='".$rango->duracion_bloque."'>"; else echo "value='50'>";
+										echo "</td>";
+									echo "</tr>";
+									echo "<tr>";
+										echo "<th>Inicio de receso</th>";
+										echo "<td>";
+											echo "<input type='time' name='receso-inicio[]' ";
+											if ($E) echo "value='".$rango->receso_inicio."'>"; else echo "value='09:30'>";
+										echo "</td>";
+									echo "</tr>";
+									echo "<tr>";
+										echo "<th>Duración de receso<br>(minutos)</th>";
+										echo "<td>";
+											echo "<input type='number' class='minutos' name='receso-duracion[]' ";
+											if ($E) echo "value='".$rango->receso_duracion."'>"; else echo "value='30'>";
 								echo "</div>";
-								echo "<div class='small-12 medium-6 large-4 columns'>";
-									echo "Hora de salida: <input type='time' name='hora-salida[]' ";
-									if ($E) echo "value='".$rango->hora_termino."'>"; else echo "value='14:30'>";
-									echo "Duración de receso:<br><input type='number' class='minutos' name='receso-duracion[]' ";
-									if ($E) echo "value='".$rango->receso_duracion."'> min."; else echo "value='30'> min.";
-								echo "</div>";
-								echo "<div class='small-12 medium-6 large-4 columns end'>";
-									echo "Duración de clase:<br><input class='minutos' type='number' name='duracion-clase[]' "; 
-									if ($E) echo "value='".$rango->duracion_bloque."'> min."; else echo "value='50'> min.";
-								echo "</div>";
+										echo "</td>";
+									echo "</tr>";
+								echo "</table>";
 							echo "</td>";
 						echo "</tr>";
 						$i++;
 					}
 					?> 
+					<tr>
+						<td class="hide-for-small">&nbsp;</td>
+						<td colspan="3">
+							<div class="acciones">
+								<input name="guardar" type="submit" class="button" value="Guardar">
+							</div>
+						</td>
+					</tr>
 				</table>
-				<div class="acciones">
-					<input name="guardar" type="submit" class="button" value="Guardar">
-				</div>
 			</form>
 		</div>
 	</div>
-
+	<a name="lista"></a>
 	<div class="seccion">
 		<span class="titulo">Grupos guardados</span>
 		<div class="cuerpo">
@@ -227,7 +261,7 @@ if (isset($_POST['guardar'])) {
 									echo "</td>";
 									echo "<td class='acciones'>";
 										echo "<a href='grupos.php?grupo=".$grupo->id_grupo."'><img src='../assets/img/edit.png' alt='Editar'></a> ";
-										echo "<a class='eliminar' href='grupos.php?eliminar=".$grupo->id_grupo."'><img src='../assets/img/discard.png' alt='Eliminar'></a> ";
+										echo "<a class='eliminar' href='grupos.php?eliminar=".$grupo->id_grupo."#lista'><img src='../assets/img/discard.png' alt='Eliminar'></a> ";
 									echo "</td>";
 								echo "</tr>";
 							}

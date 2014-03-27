@@ -19,28 +19,19 @@ if (isset($_POST['guardar'])) {
 		$docente = Docente::find($_GET['docente']);
 	} else {
 		$docente = new Docente();
+		$docente->fecha_alta = date("Y-m-d");
 	}
 	$docente->nombre = $_POST['nombre'];
 	$docente->id_nivel_profesional = $_POST['nivelprofecional'];
 	$docente->carrera_profesional = $_POST['profesion'];
 	$docente->id_clasificacion = $_POST['clasificacion'];
-	if (isset($_POST['tutor'])) {
-		$docente->tutor = $_POST['tutor'];
-	}
-	else{
-		$docente->tutor = 0;
-	}
-	if (isset($_POST['investigador'])) {
-		$docente->investigador = $_POST['investigador'];
-	}
-	else{
-		$docente->investigador = 0;
-	}
-	$docente->institucion = $_POST['instituciondeinvestigacion'];
+	$docente->tutor = $_POST['tutor']; || 0
+	$docente->investigador = $_POST['investigador'] || 0;
+	$docente->institucion = $_POST['instituciondeinvestigacion'] || 0;
 	$docente->id_carrera = $_POST['carreraafin'];
 	$docente->estado_contratacion = $_POST['estadodecontratacion'];
 	$docente->save();
-	// header("Location: docentes.php");
+	if (!isset($_GET['docente'])) header("Location: docentes.php");
 }
 ?>
 <!DOCTYPE html>
@@ -68,7 +59,12 @@ if (isset($_POST['guardar'])) {
 			</div>
 			<div class="row sicada-cuadrocontenido">
 				<div class="seccion">
-					<span class="titulo">Nuevo Docente</span>
+					<span class="titulo">
+						<?php 
+						if ($E) echo "Editar docente";
+						else echo "Nuevo Docente";
+						?>
+					</span>
 					<div class="cuerpo">
 						<form method="post">
 							<style>
@@ -193,7 +189,7 @@ if (isset($_POST['guardar'])) {
 									foreach ($table as $key) {
 										echo "<tr>";
 											echo "<td>";
-												echo $key->nombre;
+												echo "<a href='detalles-docente.php?docente=".$key->id_docente."'>".$key->nombre."</a>";
 											echo "</td>";
 											echo "<td>";
 												echo $key->nivel_profesional->nombre;

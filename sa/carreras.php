@@ -2,29 +2,32 @@
 include '../includes/functions.php'; 
 estaLogueado(2);
 
+if (isset($_GET['eliminar'])) {
+	$carrera = Carrera::find($_GET['eliminar']);
+	if ($carrera != null) {
+		// TODO: Borrado de carrera en cascada
+		$carrera->delete();
+	}
+	header("Location: carreras.php");
+}
+
 if (isset($_POST['guardar'])) {
-	//print_r($_POST);
-	$docente = new Docente();
-	$docente->nombre = $_POST['nombre'];
-	$docente->id_nivel_profesional = $_POST['nivelprofecional'];
-	$docente->carrera_profesional = $_POST['profesion'];
-	$docente->id_clasificacion = $_POST['clasificacion'];
-	if (isset($_POST['tutor'])) {
-		$docente->tutor = $_POST['tutor'];
+	if (isset($_GET['carrera'])) {
+		$carrera = Carrera::find($_GET['carrera']);
+	} else {
+		$carrera = new Carrera();
 	}
-	else{
-		$docente->tutor = 0;
+	$carrera->nombre = trim($_POST['nombre']);
+	$carrera->clave = trim($_POST['clave']);
+	// Comprobando clave
+	$claveRepetida = Carrera::find(array("conditions" => array("clave = ?", $carrera->clave)));
+	if ($claveRepetida != null) {
+		echo "No se permite repetir clave de carrera.<br>";
+		// TODO: Mensaje de error de clave de carrera repetida.
+	} else {
+		$carrera->save();
+		if (!isset($_GET['carrera'])) header("Location: carreras.php");
 	}
-	if (isset($_POST['investigador'])) {
-		$docente->investigador = $_POST['investigador'];
-	}
-	else{
-		$docente->investigador = 0;
-	}
-	$docente->institucion = $_POST['instituciondeinvestigacion'];
-	$docente->id_carrera = $_POST['carreraafin'];
-	$docente->estado_contratacion = $_POST['estadodecontratacion'];
-	$docente->save();
 }
 ?>
 <!DOCTYPE html>
@@ -37,6 +40,15 @@ if (isset($_POST['guardar'])) {
 	<?php include "../includes/header.php"; ?>
 	<?php include "../includes/menu.php"; ?>
 			<!-- Contenido -->
+			<?php
+			$E = false;
+			if (isset($_GET['carrera'])) {
+				$carrera = Carrera::find($_GET['carrera']);
+				$E = ($carrera != null);
+			}
+			// show_debug($carrera);
+			?>
+
 			<div class="row contenido-titulo">
 				<div class="small-12 columns">
 					<h4>Carreras</h4>
@@ -44,16 +56,32 @@ if (isset($_POST['guardar'])) {
 			</div>
 			<div class="row sicada-cuadrocontenido">
 				<div class="seccion">
-					<span class="titulo">Nuevas Carreras</span>
+					<span class="titulo">
+						<?php
+						if ($E) echo "Editar carrera";
+						else echo "Nueva carerra";
+						?>
+					</span>
 					<div class="cuerpo">
 						<form method="post">
-								Nombre
-								<input name="nombre" type="text" placeholder="Nombre">
-								Profesión
-								<input name="profesion" type="text" placeholder="Profesión">
-							<div class="acciones">
-								<input name="guardar" type="submit" class="button" value="Guardar">
-							</div>
+							<table>
+								<tr>
+									<th>Clave</th>
+									<td><input name="clave" type="text" <?php if ($E) echo "value='$carrera->clave'"; ?> ></td>
+								</tr>
+								<tr>
+									<th>Nombre</th>
+									<td><input name="nombre" type="text" <?php if ($E) echo "value='$carrera->nombre'"; ?> ></td>
+								</tr>
+								<tr>
+									<th class="hide-for-small">&nbsp;</th>
+									<td>
+										<div class="acciones">
+											<input name="guardar" type="submit" class="button" value="Guardar">
+										</div>
+									</td>
+								</tr>
+							</table>
 						</form>
 					</div>
 				</div>
@@ -63,17 +91,29 @@ if (isset($_POST['guardar'])) {
 						<div>
 							<input class="filtro-input" type="text" placeholder="Filtro">
 						</div>
-						<div class="instrucciones">
-							Haga clic en el nombre de un docente para ver detalles
-						</div>
 						<div>
 							<table class="filtro-tabla">
 								<tr class="encabezados"> 
+									<th>Clave</th>
 									<th>Nombre</th>
-									<th>Nivel Profesional</th>
-									<th>Clasificación</th>
-									<th>Contratación</th>
+									<th class="text-right">Acciones</th>
 								</tr>
+								<?php
+								foreach (Carrera::all() as $carrera) {
+									echo "<tr>";
+										echo "<td>";
+											echo $carrera->clave;
+										echo "</td>";
+										echo "<td>";
+											echo $carrera->nombre;
+										echo "</td>";
+										echo "<td class='acciones'>";
+											echo "<a href='carreras.php?carrera=".$carrera->id_carrera."'><img src='../assets/img/edit.png' alt='Editar' title='Editar'></a> ";
+											echo "<a class='eliminar' href='carreras.php?eliminar=".$carrera->id_carrera."'><img src='../assets/img/discard.png' alt='Eliminar' title='Eliminar'></a> ";
+										echo "</td>";
+									echo "</tr>";									
+								}
+								?>
 							</table>
 						</div>
 					</div>

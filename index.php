@@ -1,4 +1,5 @@
 <?php
+include "includes/functions.php";
 /*!
 @file codigo/index.php 
 @brief Página de inicio de sesión de SICADA. 
@@ -19,20 +20,12 @@ Será dirigido directamente hacia la pantalla inicial del rol que le corresponde
 @date Marzo 2014
 */
 
-$DEBUG = true; //!< Indica si se deben mostrar los mensajes de depuración.
 $falloLogin = false; //!< Vale TRUE si ocurrió un error de credenciales al intentar iniciar sesión.
 
 /*!
 @brief Renderiza el HTML correspondiente a esta página.
 */
 function perform() {
-	
-	/* Borrar al terminar las pruebas */
-	if ($DEBUG) {
-		ini_set('display_errors', 1);
-		error_reporting(~0);
-	}
-	/* ----------------------------- */
 
 
 	if (isset($_POST['login'])) {
@@ -47,17 +40,17 @@ function perform() {
 		  // var_dump($usuario);
 		  // var_dump($usuario->rol);
 
-
+			// show_debug($usuario);
 			/* Login exitoso */
 
 			$pre = "";
-			if ($usuario->rol->id_rol == 1) {
+			if ($usuario->id_rol == 1) {
 				$pre = "ad/";
 			}
-			if ($usuario->rol->id_rol == 2) {
+			if ($usuario->id_rol == 2) {
 				$pre = "sa/";
 			}
-			if ($usuario->rol->id_rol == 3) {
+			if ($usuario->id_rol == 3) {
 				$pre = "dc/";
 			}
 
@@ -112,16 +105,27 @@ function perform() {
 			<div class="row titulo">
 				<!-- <h2>Bienvenido a SICADA</h2> -->
 			</div>
-			<div class="seccion">
+			<div class="seccion inmovil">
 				<span class="titulo">Iniciar sesión</span>
 				<div class="cuerpo">
-					<?php if ($falloLogin) { ?>
+					<?php if (isset($falloLogin) and $falloLogin) { ?>
 					<p class="mensaje-error">Usuario o contraseña incorrectos</p>
 					<?php } ?>
 					<form method="post">
-						<input type="text" placeholder="Usuario" name="user">
-						<input type="password" placeholder="Contraseña" name="password">
-						<input type="submit" class="button" name="login" value="Entrar">
+						<table>
+							<tr>
+								<th>Usuario</th>
+								<td><input type="text" name="user" placeholder="nombre de usuario"></td>
+							</tr>
+							<tr>
+								<th>Contraseña</th>
+								<td><input type="password" name="password" placeholder="*******"></td>
+							</tr>
+							<tr>
+								<th class="hide-for-small">&nbsp;</th>
+								<td class="acciones"><input type="submit" class="button" name="login" value="Entrar"></td>
+							</tr>
+						</table>
 					</form>
 				</div>
 			</div>

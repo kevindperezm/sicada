@@ -1,1 +1,7 @@
- Kevin Perez [24-03-2014 15:14 GTM -6]: Terminar CRUD en sa/docentes, sa/directores y sa/carreras.
+ Kevin Perez [24-03-2014 08:14 GTM-6]: Terminar CRUD en sa/docentes, sa/directores y sa/carreras.
+ Kevin Perez [24-03-2014 10:14 GTM-6]: Terminado sa/docentes
+ Kevin Perez [25-03-2014 00:32 GTM-6]: Terminado sa/directores
+ Kevin Perez [25-03-2014 00:56 GTM-6]: Terminado sa/detalles-docentes
+ Kevin Perez [25-03-2014 01:03 GTM-6]: Implementar filtro con plugin de jQuery
+ Kevin Perez [25-03-2014 01:04 GTM-6]: Terminado sa/materias
+ Kevin Perez [25-03-2014 01:24 GTM-6]: Terminado sa/carreras
