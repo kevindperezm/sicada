@@ -25,7 +25,7 @@ if (isset($_POST['guardar'])) {
 	$docente->id_nivel_profesional = $_POST['nivelprofecional'];
 	$docente->carrera_profesional = $_POST['profesion'];
 	$docente->id_clasificacion = $_POST['clasificacion'];
-	$docente->tutor = $_POST['tutor']; || 0
+	$docente->tutor = $_POST['tutor'] || 0;
 	$docente->investigador = $_POST['investigador'] || 0;
 	$docente->institucion = $_POST['instituciondeinvestigacion'] || 0;
 	$docente->id_carrera = $_POST['carreraafin'];
@@ -168,10 +168,6 @@ if (isset($_POST['guardar'])) {
 				<div class="seccion">
 					<span class="titulo">Docentes Guardados</span>
 					<div class="cuerpo">
-						<div>
-							Filtro: 
-							<input class="filtro-input" type="search" placeholder="Filtro">
-						</div>
 						<div class="instrucciones">
 							Haga clic en el nombre de un docente para ver detalles
 						</div>

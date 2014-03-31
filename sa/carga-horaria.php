@@ -21,11 +21,7 @@ estaLogueado(2);
 		<div class="seccion">
 			<span class="titulo">Carga Horaria</span>
 			<div class="cuerpo">
-				<div>
-					<input class="filtro-input" type="text" placeholder="Filtro">
-				</div>
 				<div class="instrucciones">
-
 				</div>
 				<div>
 					<table class="filtro-tabla">

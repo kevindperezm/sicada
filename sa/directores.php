@@ -148,10 +148,6 @@ if (isset($_POST['guardar'])) {
 				<div class="seccion">
 					<span class="titulo">Directores registrados</span>
 					<div class="cuerpo">
-						<div>
-							Filtro
-							<input class="filtro-input" type="text" placeholder="Filtro">
-						</div>
 						<div class="instrucciones">
 							Haga clic en el nombre de un director para ver detalles
 						</div>
@@ -162,7 +158,7 @@ if (isset($_POST['guardar'])) {
 									<th>Carrera</th>
 									<th>Correo electrónico</th>
 									<th>Usuario</th>
-									<th class="text-right">Usuario</th>
+									<th class="text-right">Acciones</th>
 								</tr>
 								<?php
 								foreach (Director::all() as $director) {

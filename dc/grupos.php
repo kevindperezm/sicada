@@ -170,14 +170,14 @@ if (isset($_POST['guardar'])) {
 							echo "<td class='row'>";
 								echo "<table>";
 									echo "<tr>";
-										echo "<th>Hora de entrada</th>";
+										echo "<th>Hora de entrada<br>(24 horas)</th>";
 										echo "<td>";
 											echo "<input type='time' name='hora-inicio[]' ";
 											if ($E) echo "value='".$rango->hora_inicio."'>"; else echo "value='07:30'>";
 										echo "</td>";
 									echo "</tr>";
 									echo "<tr>";
-										echo "<th>Hora de salida</th>";
+										echo "<th>Hora de salida<br>(24 horas)</th>";
 										echo "<td>";
 											echo "<input type='time' name='hora-salida[]' ";
 											if ($E) echo "value='".$rango->hora_termino."'>"; else echo "value='14:30'>";
@@ -191,7 +191,7 @@ if (isset($_POST['guardar'])) {
 										echo "</td>";
 									echo "</tr>";
 									echo "<tr>";
-										echo "<th>Inicio de receso</th>";
+										echo "<th>Inicio de receso<br>(24 horas)</th>";
 										echo "<td>";
 											echo "<input type='time' name='receso-inicio[]' ";
 											if ($E) echo "value='".$rango->receso_inicio."'>"; else echo "value='09:30'>";
@@ -227,14 +227,11 @@ if (isset($_POST['guardar'])) {
 	<div class="seccion">
 		<span class="titulo">Grupos guardados</span>
 		<div class="cuerpo">
-			<div>
-				<input class="filtro-input" type="text" placeholder="Filtro">
-			</div>
 			<div class="instrucciones">
 				Haga clic en la clave de un grupo para editarlo
 			</div>
 			<div>
-				<table class="filtro-tabla">
+				<table class="-tabla">
 					<tr class="encabezados">
 						<th>Clave</th>
 						<th>Cuatrimestre</th>
@@ -243,10 +240,13 @@ if (isset($_POST['guardar'])) {
 					</tr>
 					<?php 
 					$director = $GLOBALS['usuario']->director;
+					// show_debug($director);
 					if ($director != null) {
 						$grupos = Grupo::find('all', array(
-							"conditions" => array("id_carrera = ?", $director->carrera->id_carrera)
+							"conditions" => array("id_carrera = ?", $director->clave_carrera)
 						));
+						// $grupos = $director->carrera->grupos;
+						// show_debug($grupos);
 						if ($grupos != null) {
 							foreach ($grupos as $grupo) {
 								echo "<tr>";

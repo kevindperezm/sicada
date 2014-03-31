@@ -105,9 +105,6 @@ if (isset($_POST['guardar'])) {
 				<div class="seccion">
 					<span class="titulo">Materias guardadas</span>
 					<div class="cuerpo">
-						<div>
-							<input class="filtro-input" type="search" placeholder="Filtro">
-						</div>
 						<div class="instrucciones">
 							Haga clic en el nombre de un director para ver detalles
 						</div>

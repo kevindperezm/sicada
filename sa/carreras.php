@@ -89,9 +89,6 @@ if (isset($_POST['guardar'])) {
 					<span class="titulo">Carreras Guardadas</span>
 					<div class="cuerpo">
 						<div>
-							<input class="filtro-input" type="text" placeholder="Filtro">
-						</div>
-						<div>
 							<table class="filtro-tabla">
 								<tr class="encabezados"> 
 									<th>Clave</th>
