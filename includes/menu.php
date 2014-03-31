@@ -66,6 +66,9 @@ function menu() { ?>
 </div>
 <div class="main row">
 	<!-- Antigua posición de menú -->
+	<div class="small-12 columns">
+		<?php show_message(); ?>
+	</div>
 	<div class="small-12 medium-10 columns sicada-contenido">
 
 		

@@ -64,7 +64,7 @@ form table input, form table select {
 	font-size: 0.9em !important;
 }
 form table input, form table select {
-	padding: 0.5em !important;
+	/*padding: 0.5em !important;*/
 }
 
 table {
@@ -109,9 +109,9 @@ td, th {
 	form select {
 		width: 100% !important;
 		/*min-width: 18em !important;*/
-		display: inline !important;
-		margin: 0.5em 0!important;
-		margin-right: 1em !important;
+		display: inline;
+		/*margin: 0.5em 0!important;*/
+		/*margin-right: 1em !important;*/
 	}
 
 	.button {

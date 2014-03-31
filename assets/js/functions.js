@@ -1,4 +1,3 @@
-
 $(document).foundation();
 
 /* Pestañas que ocultan secciones */

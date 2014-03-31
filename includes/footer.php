@@ -9,6 +9,7 @@
 </div>
 
 <script src="../assets/js/jquery-1.11.0.min.js"></script>
-<script src="../assets/js/foundation.min.js"></script>
 <script src="../assets/js/jquery.form-validator.min.js"></script>
+<script src="../assets/js/foundation.min.js"></script>
 <script src="../assets/js/functions.js"></script>
+<script src="../assets/js/system_message.js"></script>

@@ -1,10 +1,11 @@
- <?php 
+<?php 
 /* Borrar al terminar las pruebas */
 ini_set('display_errors', 1);
 error_reporting(~0);
 /* ----------------------------- */
 
 setlocale(LC_ALL,"es_ES");
+date_default_timezone_set("America/Mexico_City");
 
 function show_debug($var) {
 	echo "<hr>";
@@ -13,6 +14,8 @@ function show_debug($var) {
 	echo "</pre>";
 	echo "<hr>";
 }
+
+include "show_message.php";
 
 function estaLogueado($rol) {
 	/* Código que comprueba que se ha iniciado sesión */

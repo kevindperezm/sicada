@@ -3,12 +3,17 @@ include '../includes/functions.php';
 estaLogueado(2);
 
 if (isset($_GET['eliminar'])) {
-	$carrera = Carrera::find($_GET['eliminar']);
-	if ($carrera != null) {
-		// TODO: Borrado de carrera en cascada
-		$carrera->delete();
+	try {
+		$carrera = Carrera::find($_GET['eliminar']);
+		if ($carrera != null) {
+			// TODO: Borrado de carrera en cascada
+			$carrera->delete();
+			add_message(0, "Carrera '$carrera->nombre' borrada");
+		}
+	} catch (Exception $e) {
+		add_message(1, "La carrera indicada para eliminar no existe");
+		header("Location: carreras.php");
 	}
-	header("Location: carreras.php");
 }
 
 if (isset($_POST['guardar'])) {
@@ -22,11 +27,12 @@ if (isset($_POST['guardar'])) {
 	// Comprobando clave
 	$claveRepetida = Carrera::find(array("conditions" => array("clave = ?", $carrera->clave)));
 	if ($claveRepetida != null) {
-		echo "No se permite repetir clave de carrera.<br>";
+		add_message(1, "No se permite repetir clave de carrera");
 		// TODO: Mensaje de error de clave de carrera repetida.
 	} else {
 		$carrera->save();
-		if (!isset($_GET['carrera'])) header("Location: carreras.php");
+		add_message(0, "Carrera '$carrera->nombre' guardada");
+		// if (!isset($_GET['carrera'])) header("Location: carreras.php");
 	}
 }
 ?>
