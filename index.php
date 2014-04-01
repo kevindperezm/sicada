@@ -35,12 +35,10 @@ function perform() {
 		include "includes/db.php";
 		$usuario = Usuario::find(array(
 			"conditions" => array("nombre = ? AND contrasena = SHA1(?)", $user, $password)
-			));
+		));
+		// show_debug($usuario);
 		if ($usuario != null) {
-		  // var_dump($usuario);
-		  // var_dump($usuario->rol);
 
-			// show_debug($usuario);
 			/* Login exitoso */
 
 			$pre = "";
@@ -53,9 +51,6 @@ function perform() {
 			if ($usuario->id_rol == 3) {
 				$pre = "dc/";
 			}
-
-		  // echo "\r\nPRE=".$pre."\r\n";
-		  // exit();
 
 			session_start();
 			$_SESSION['id_usuario'] = $usuario->id_usuario;
@@ -72,6 +67,11 @@ function perform() {
 		}
 	} else {
 		session_start();
+		/*! 
+		Sino está presente el valor $_POST['login'] 
+		se envía al usuario a 'ad/index.php'. 'ad/index.php' se encarga de dirigir al usuario a la página
+		del rol que le corresponde.
+		*/
 		if (isset($_SESSION['id_usuario'])) header("Location: ad/");
 	}
 
