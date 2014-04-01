@@ -1,0 +1,36 @@
+.message-container {
+	text-align: right;
+}
+
+.system_message {
+	width: 300px;
+	/*margin: 0 auto 0 auto;*/
+	text-align: center;
+	color: white;
+	padding: 10px;
+	margin: 0.5em;
+	display: inline-block;
+	border-radius: 5px;
+	font-size: 0.8em;
+}
+
+.good {
+	background: #00CC88;
+}
+
+.bad {
+	background: #E85752;
+}
+
+.message-container.floating {
+	position: fixed;
+	top: 1em;
+	/*left: 25%;*/
+	right: 0.5em;
+	z-index: 1000; 
+} 
+
+.message-container.floating .system_message{
+	box-shadow: 0 0px 10px #333;
+	display: block;
+}

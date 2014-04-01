@@ -2,11 +2,11 @@
 include '../includes/functions.php'; 
 estaLogueado(2);
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['director'])) {
 	header("Location: directores.php");
 }
 
-$id = $_GET['id'];
+$id = $_GET['director'];
 $director = Director::find($id);
 if ($director == null) {
 	header("Location: directores.php");
@@ -32,9 +32,9 @@ if ($director == null) {
 		<div class="seccion">
 			<span class="titulo">Detalles director</span>
 			<div class="cuerpo">
-				<div>
+				<!-- <div>
 					<th> <a href="directores.php?ed=<?php echo $_GET['id'] ?>" class="button">Editar</a></th>
-				</div>
+				</div> -->
 				<div class="instrucciones">
 				</div>
 				<div>

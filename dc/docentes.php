@@ -16,31 +16,20 @@ estaLogueado(3);
 			<!-- Contenido -->
 			<div class="row contenido-titulo">
 				<div class="small-12 columns">
-					<h4>Docentes</h4>
+					<?php
+					echo "<h3>Docentes laborando en su carrera</h3>";
+					?>
 				</div>
 			</div>
-			<div>
-				<?php
-					//echo "LOL";
-					$id = $usuario->id_usuario;
-					$director = Director::find(array(
-						"conditions" => array("id_usuario = ?", $id)
-					));
-					echo "<h3>Docentes laborando en ".$director->carrera->nombre."</h3>";
-				?>
-			</div>
-		
 				<div class="seccion">
 					<span class="titulo">Docentes Guardados</span>
 					<div class="cuerpo">
-						<div>
-							<input class="filtro-input" type="text" placeholder="Filtro">
-						</div>
+						
 						<div class="instrucciones">
 							Haga clic en el nombre de un docente para ver detalles
 						</div>
 						<div>
-							<table class="filtro-tabla">
+							<table class="-tabla">
 								<tr class="encabezados"> 
 									<th>Nombre</th>
 									<th>Nivel Profesional</th>

@@ -20,21 +20,17 @@ if (isset($_POST['guardar'])) {
 	$director->nombre = trim($_POST['nombre']);
 	$director->telefono = trim($_POST['telefono']);
 	$director->correo_electronico = trim($_POST['correo-electronico']);
-	$director->clave_carrera = $_POST['carrera'];
+	$director->id_carrera = $_POST['carrera'];
 
-	// show_debug($director);
 	$usuario = $director->usuario;
 	if ($usuario == null) $usuario = new Usuario();
 
 	// Evaluando nombre de usuario.
 	// No se permiten nombres de usuario repetidos.
-	$usuarioRepetido = null;
-	if ($director->id_director_carrera == null) {
-		$usuario->nombre = trim($_POST['usuario']);
-		$usuarioRepetido = Director::find(array("conditions" => array("nombre = ?", $usuario->nombre)));
-		if ($usuarioRepetido != null) {
-			echo "No está permitido repetir nombre de usuario.<br>";
-		}
+	$usuario->nombre = trim($_POST['usuario']);
+	$usuarioRepetido = Director::find(array("conditions" => array("nombre = ?", $usuario->nombre)));
+	if ($usuarioRepetido != null) {
+		echo "No está permitido repetir nombre de usuario.<br>";
 	}
 
 	if ($usuarioRepetido == null) {
@@ -57,7 +53,7 @@ if (isset($_POST['guardar'])) {
 		$director->id_usuario = $usuario->id_usuario;
 		$director->save();
 
-		if (!isset($_GET['director'])) header("Location: directores.php");
+		header("Location: directores.php");
 	}
 }
 ?>
@@ -85,26 +81,21 @@ if (isset($_POST['guardar'])) {
 			</div>
 			<div class="row sicada-cuadrocontenido">
 				<div class="seccion">
-					<span class="titulo">
-						<?php
-						if ($E) echo "Editar director";
-						else echo "Nuevo director";
-						?>
-					</span>
+					<span class="titulo">Nuevo director</span>
 					<div class="cuerpo">
 						<form method="post">
 							<table>
 								<tr>
 									<th>Nombre</th>
-									<td><input name="nombre" type="text" <?php if ($E) echo "value='$director->nombre'"; ?> ></td>
+									<td><input name="nombre" type="text"></td>
 								</tr>
 								<tr>
 									<th>Teléfono</th>
-									<td><input name="telefono" type="text" <?php if ($E) echo "value='$director->telefono'"; ?> ></td>
+									<td><input name="telefono" type="text"></td>
 								</tr>
 								<tr>
 									<th>Correo electrónico</th>
-									<td><input name="correo-electronico" type="email" <?php if ($E) echo "value='$director->correo_electronico'"; ?> ></td>
+									<td><input name="correo-electronico" type="email"></td>
 								</tr>
 								<tr>
 									<th>Carrera</th>
@@ -113,31 +104,24 @@ if (isset($_POST['guardar'])) {
 											<option value="0">Carrera</option>
 											<?php
 											foreach (Carrera::all() as $carrera) 
-												echo "<option value='".$carrera->id_carrera."' ";
-												if ($E and $director->clave_carrera == $carrera->id_carrera) echo "selected='selected'";
-												echo ">".$carrera->nombre."</option>";
+												echo "<option value='".$carrera->id_carrera."'>".$carrera->nombre."</option>";
 											?>
 										</select>
 									</td>
 								</tr>
 								<tr>
 									<th>Usuario</th>
-									<td><input name="usuario" type="text" <?php if ($E) echo "value='".$director->usuario->nombre."'"; ?> ></td>
+									<td><input name="usuario" type="text"></td>
 								</tr>
 								<tr>
 									<th>Contraseña</th>
-									<td>
-										<input name="contrasena" type="password">
-										<?php
-										if ($E) echo "<br><span style='font-size: 0.8em;color:#666;'>Si no desea cambiar la contraseña, deje el campo en blanco.</span>";
-										?>
-									</td>
+									<td><input name="contrasena" type="password"></td>
 								</tr>
 								<tr>
 									<th class='hide-for-small'>&nbsp;</th>
 									<td colspan="2">
 										<div class="acciones">
-											<input type="submit" class="button" name="guardar" value="Guardar">
+											<input type="submit" class="button" value="Guardar">
 										</div>
 									</td>
 								</tr>
@@ -148,6 +132,10 @@ if (isset($_POST['guardar'])) {
 				<div class="seccion">
 					<span class="titulo">Directores registrados</span>
 					<div class="cuerpo">
+						<div>
+							Filtro
+							<input class="filtro-input" type="text" placeholder="Filtro">
+						</div>
 						<div class="instrucciones">
 							Haga clic en el nombre de un director para ver detalles
 						</div>
@@ -158,7 +146,7 @@ if (isset($_POST['guardar'])) {
 									<th>Carrera</th>
 									<th>Correo electrónico</th>
 									<th>Usuario</th>
-									<th class="text-right">Acciones</th>
+									<th class="text-right">Usuario</th>
 								</tr>
 								<?php
 								foreach (Director::all() as $director) {
@@ -177,7 +165,7 @@ if (isset($_POST['guardar'])) {
 										echo "</td>";
 										echo "<td class='acciones'>";
 											echo "<a href='directores.php?director=".$director->id_director_carrera."'><img src='../assets/img/edit.png' alt='Editar'></a> ";
-											echo "<a class='eliminar' href='grupos.php?eliminar=".$director->id_director_carrera."'><img src='../assets/img/discard.png' alt='Eliminar'></a> ";
+											echo "<a class='eliminar' href='directores.php?eliminar=".$director->id_director_carrera."'><img src='../assets/img/discard.png' alt='Eliminar'></a> ";
 										echo "</td>";
 									echo "</tr>";
 								}

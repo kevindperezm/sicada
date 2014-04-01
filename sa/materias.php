@@ -26,7 +26,7 @@ if (isset($_POST['guardar'])) {
 	$materia->id_carrera = $_POST['carrera'];
 	
 	$materia->save();
-	header("Location: materias.php");
+	if (!isset($_GET['materia'])) header("Location: materias.php");
 }
 ?>
 <!DOCTYPE html>
@@ -54,26 +54,50 @@ if (isset($_POST['guardar'])) {
 			</div>
 			<div class="row sicada-cuadrocontenido">
 				<div class="seccion">
-					<span class="titulo">Nueva materia</span>
+					<span class="titulo">
+						<?php
+						if ($E) echo "Editar materia";
+						else echo "Nueva materia";
+						?>
+					</span>
 					<div class="cuerpo">
 						<form method="post" id="nuevo">
-							<input name="nombre" type="text" placeholder="Nombre" <?php if ($E) echo "value='".$materia->nombre."'"; ?>>
-							<input name="cuatrimestre" type="number" min="1" placeholder="Cuatrimestre" <?php if ($E) echo "value='".$materia->cuatrimestre."'"; ?>>
-							<select name="carrera">
-								<option value="">Carrera</option>
-								<?php
-								$carreras = Carrera::all();
 
-								foreach ($carreras as $carrera) {
-									echo "<option value='".$carrera->id_carrera."' ";
-									if ($E and $materia->id_carrera == $carrera->id_carrera) echo "selected='selected'";
-									echo ">".$carrera->nombre."</option>";
-								}
-								?>
-							</select><br>
-							<div class="acciones">
-								<input type="submit" name="guardar" class="button" value="Guardar">
-							</div>
+							<table>	
+								<tr>
+									<th>Nombre</th>
+									<td><input name="nombre" type="text" <?php if ($E) echo "value='".$materia->nombre."'"; ?>></td>
+								</tr>
+								<tr>
+									<th>Cuatrimestre</th>
+									<td><input name="cuatrimestre" type="number" min="1" <?php if ($E) echo "value='".$materia->cuatrimestre."'"; ?>></td>
+								</tr>
+								<tr>
+									<th>Carrera</th>
+									<td>
+										<select name="carrera">
+											<option value="">Carrera</option>
+											<?php
+											$carreras = Carrera::all();
+
+											foreach ($carreras as $carrera) {
+												echo "<option value='".$carrera->id_carrera."' ";
+												if ($E and $materia->id_carrera == $carrera->id_carrera) echo "selected='selected'";
+												echo ">".$carrera->nombre."</option>";
+											}
+											?>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<th class="hide-for-small">&nbsp;</th>
+									<td>
+										<div class="acciones">
+											<input type="submit" name="guardar" class="button" value="Guardar">
+										</div>
+									</td>
+								</tr>
+							</table>
 						</form> 
 					</div>
 				</div>
@@ -81,9 +105,6 @@ if (isset($_POST['guardar'])) {
 				<div class="seccion">
 					<span class="titulo">Materias guardadas</span>
 					<div class="cuerpo">
-						<div>
-							<input class="filtro-input" type="search" placeholder="Filtro">
-						</div>
 						<div class="instrucciones">
 							Haga clic en el nombre de un director para ver detalles
 						</div>

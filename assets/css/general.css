@@ -1,6 +1,7 @@
 /* Estilos que modifican los estilos de Foundation */
 body {
 	font-family: sans-serif !important;
+	/*font-size: 90% !important;*/
 }
 
 th {
@@ -25,14 +26,21 @@ a:hover {
 	max-width: none;	
 }
 
-input {
-	/*transition: none !important;*/
+input, select {
+	height: auto !important;
 }
+
+.filtro-input {
+	margin: 1em 0em !important;
+}
+
+input[type="checkbox"] {margin-right: 0.6em;}
 
 .button {
 	background: #00A54F !important;
-	width: 30% !important;
 	min-width: 5em !important;
+	width: auto !important;
+	max-width: 10em !important;
 	padding: 0.5em !important;
 	text-align: center !important;
 	/*border-radius: 7px;*/
@@ -50,6 +58,13 @@ input {
 
 form {
 	margin: 0 !important;
+}
+form, form table td, form table th,
+form table input, form table select {
+	font-size: 0.9em !important;
+}
+form table input, form table select {
+	/*padding: 0.5em !important;*/
 }
 
 table {
@@ -86,16 +101,17 @@ td, th {
 }
 
 @media only screen and (min-width: 600px) {
-	input[type="text"],
-	input[type="number"],
-	input[type="search"],
-	input[type="password"],
-	input[type="email"],
-	select {
-		width: auto !important;
-		min-width: 18em !important;
-		display: inline !important;
-		margin-right: 1em !important;
+	form input[type="text"],
+	form input[type="number"],
+	form input[type="search"],
+	form input[type="password"],
+	form input[type="email"],
+	form select {
+		width: 100% !important;
+		/*min-width: 18em !important;*/
+		display: inline;
+		/*margin: 0.5em 0!important;*/
+		/*margin-right: 1em !important;*/
 	}
 
 	.button {
@@ -111,7 +127,7 @@ td, th {
 }
 
 .header img {
-	height: 4em;
+	height: 5em;
 	padding: 0.3em 0;
 }
 
@@ -194,29 +210,52 @@ td, th {
 
 .seccion {
 	margin: 0 1em 2em;
+	border: 1px solid #888888;
 }
+
 
 .seccion .titulo {
 	font-size: small;
 	color: white;
 	background: #00A54F;
-	width: auto;
-	padding: 0.3em 0.6em;
-	border: 1px solid #B6B6B6;
+	width: 100%;
+	display: block;
+	padding: 0.8em 1em;
+	margin-bottom: -0.4em;
+	/*text-align: center;*/
+	text-transform: uppercase;
+	/*border: 1px solid #EEE;*/
+	/*border-bottom: 0;*/
+}
+
+.seccion.cerrada .titulo {
+	background: #007739;
+	/*border: 1px solid #CCC inset;*/
 }
 
 .seccion .cuerpo {
 	margin-top: 0.3em;
 	padding: 0.6em;
 	background: #F9F9F9;
-	border: 1px solid #B6B6B6;
+	/*border: 1px solid #CCC;*/
 }
 
 .seccion .acciones {
 	text-align: left;
 }
-
+.seccion .acciones img{
+	width: 1.8em;
+	transition: 0.2s;
+}
 .seccion .acciones img:hover {
+	outline: 1px solid;
+}
+.seccion .acciones img:active {
+	transform: scale(0.9);
+	-webkit-transform: scale(0.9);
+	-o-transform: scale(0.9);
+	-ms-transform: scale(0.9);
+	-moz-transform: scale(0.9);
 	outline: 1px solid;
 }
 
@@ -229,12 +268,12 @@ table {
 	margin: 0 auto;
 }
 
-table tr:nth-child(odd),
-table tr.encabezados {
+table > tr:nth-child(odd),
+table > tr.encabezados {
 	background: #EEE !important;
 }
 
-table tr:nth-child(even) {
+table > tr:nth-child(even) {
 	background: white;
 }	
 
@@ -242,7 +281,7 @@ table tr:nth-child(even) {
 	background: #00A54F;
 	color: white;
 	font-size: small;
-	border-top: 1px solid black;
+	/*border-top: 1px solid black;*/
 }
 
 @media only screen and (min-width: 600px) {
@@ -264,8 +303,37 @@ table tr:nth-child(even) {
 	}
 }
 
+@media only screen and (min-width: 1150px) {
+	.sicada-cuadrocontenido {
+		padding: 0 2%;
+	}
+	.seccion:not(.inmovil) {
+		width: 47%;
+		/*display: inline-block;*/
+		float: left;
+		margin-top: 0 !important;
+		text-align: left;
+	}
+	h3, h4 {
+		text-align: left;
+	}
+
+	form input:not([type=checkbox], [type=submit]),
+	form select {
+		width: 100% !important;
+	}
+}
+
 .mensaje-error {
 	font-size: 0.9em;
 	color: red;
-	padding: 0.5em;
+	padding: 0.2em;
+	margin-bottom: 0.3em !important;
 }
+
+.no-resultados span {
+	margin: 1em; 
+	display:block;
+}
+
+.no-resultados td {background: #FFF !important;}
