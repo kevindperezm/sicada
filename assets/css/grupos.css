@@ -1,0 +1,12 @@
+#nuevo-grupo table td,
+#nuevo-grupo table .columns {
+
+}
+#nuevo-grupo input[type="time"] {
+	display: block;
+	width: 100% ;
+}
+#nuevo-grupo input.minutos {
+	width: 40%;
+	display: inline;
+} 

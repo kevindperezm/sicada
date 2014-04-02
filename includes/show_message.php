@@ -1,9 +1,32 @@
 <?php
+/*!
+@file includes/show_message.php 
+@brief Contiene funciones para mostrar notificaciones de éxito y error.
+
+Este archivo contiene funciones que se usan para añadir mensajes a la
+cola de mensajes de la sesión actual y mostrarlos en el navegador. 
+Estos mensajes incluyen, por ejemplo, a los mensajes de éxito que aparecen
+cuando una operación de guardado termina bien.
+
+@author Kevin Pérez
+@date Abril 2014
+*/
 
 /*!
-@function add_message($type, $mssg)
-@param $type int El tipo de mensaje: 0 para mensaje de éxito, 1 para mensaje de error.
-param $mssg String El mensaje que será mostrado en la notificación.
+@brief Añade un mensaje a la cola de mensajes.
+
+En SICADA, los mensajes que se emiten desde las operaciones internas y que
+quieren notificar al usuario de algo pueden encolarse. Esta función añade
+un mensaje a la cola.
+
+@param $type El tipo de mensaje: 
+<ul>
+	<li><b>0</b>: Mensaje de éxito</li>
+	<li><b>1</b>: Mensaje de error.</li>
+</ul>
+@param $mssg El mensaje que será añadido a la cola de mensajes.
+@return Esta función no retorna ningún valor.
+
 */
 function add_message($type, $mssg) {
    if (!isset($_SESSION['messages'])) {
@@ -13,9 +36,13 @@ function add_message($type, $mssg) {
 }
 
 /*!
-@function show_message()
-Muestra un mensaje en forma de una pequeña notificación, si el mensaje
-ya ha sido colocado antes por add_message().
+@brief Muestra la cola de mensajes.
+
+Muestra cada mensaje de la cola de mensajes en forma de una notificación
+al usuario. Las notificaciones aparecen como flotantes y desaparecen después
+de unos segundos si Javascript está activado. De no ser así, las notificaciones
+quedan en la pantalla, justo debajo del menú de navegación.
+@return Esta función no retorna ningún valor.
 */
 function show_message() {
    if (!isset($_SESSION['messages'])) return;
